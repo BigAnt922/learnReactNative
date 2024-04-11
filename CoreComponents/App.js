@@ -1,4 +1,4 @@
-import ButtonTrial from "./components/ButtonTrial";
+import ModalTrail from "./components/ModalTrail";
 
 export default function App() {
   return (
@@ -7,7 +7,10 @@ export default function App() {
       {/* <TextTrial /> */}
       {/* <ImageTrial /> */}
       {/* <ScrollViewTrial /> */}
-      <ButtonTrial />
+      {/* <ButtonTrial /> */}
+      {/* <PressableTrial /> */}
+      {/* <ActivityIndicatorTrial /> */}
+      <ModalTrail />
     </>
   );
 }
