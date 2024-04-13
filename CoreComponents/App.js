@@ -1,4 +1,4 @@
-import ModalTrail from "./components/ModalTrail";
+import MultipleStyleTrail from "./components/MultipleStyleTrail";
 
 export default function App() {
   return (
@@ -10,7 +10,8 @@ export default function App() {
       {/* <ButtonTrial /> */}
       {/* <PressableTrial /> */}
       {/* <ActivityIndicatorTrial /> */}
-      <ModalTrail />
+      {/* <ModalTrail /> */}
+      <MultipleStyleTrail />
     </>
   );
 }
