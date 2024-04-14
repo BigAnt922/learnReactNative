@@ -13,7 +13,8 @@ export default Box;
 const styles = StyleSheet.create({
   box: {
     backgroundColor: "white",
-    padding: 30,
+    // padding: 30,
+    padding: 25,
   },
   text: {
     fontSize: 24,
