@@ -1,5 +1,3 @@
-import MultipleStyleTrail from "./components/MultipleStyleTrail";
-
 export default function App() {
   return (
     <>
@@ -11,7 +9,7 @@ export default function App() {
       {/* <PressableTrial /> */}
       {/* <ActivityIndicatorTrial /> */}
       {/* <ModalTrail /> */}
-      <MultipleStyleTrail />
+      {/* <MultipleStyleTrail /> */}
     </>
   );
 }
