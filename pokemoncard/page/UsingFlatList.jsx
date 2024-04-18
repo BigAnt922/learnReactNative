@@ -1,4 +1,11 @@
-import { StyleSheet, Text, StatusBar, View, FlatList } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  StatusBar,
+  View,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import Pokemon from "../components/Pokemon";
 
 const pokimonData = [
@@ -44,13 +51,27 @@ export default function UsingFlatList() {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="purple" />
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Choose your pokemon</Text>
-      </View>
       <FlatList
         data={pokimonData}
         renderItem={(item) => <Pokemon {...item.item} />}
         keyExtractor={(item) => item.id}
+        ItemSeparatorComponent={<Text style={styles.downArrow}>👇</Text>}
+        ListEmptyComponent={
+          <View style={styles.loading}>
+            <ActivityIndicator size="large" color="gold" />
+            <Text style={styles.loadingText}>Loading Pokimons</Text>
+          </View>
+        }
+        ListHeaderComponent={
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Choose your pokemon</Text>
+          </View>
+        }
+        ListFooterComponent={
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>End Of List</Text>
+          </View>
+        }
       />
     </View>
   );
@@ -70,5 +91,19 @@ const styles = StyleSheet.create({
     color: "purple",
     fontWeight: "600",
     textAlign: "center",
+  },
+  downArrow: {
+    textAlign: "center",
+    fontSize: 32,
+  },
+  loading: {
+    justifyContent: "center",
+    paddingTop: 40,
+    alignItems: "center",
+  },
+  loadingText: {
+    fontSize: 40,
+    fontWeight: "700",
+    color: "gold",
   },
 });
