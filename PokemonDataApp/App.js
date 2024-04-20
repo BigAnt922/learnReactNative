@@ -23,6 +23,7 @@ export default function App() {
           },
           headerTitleStyle: {
             fontWeight: "900",
+            fontSize: 24,
           },
         }}
       >

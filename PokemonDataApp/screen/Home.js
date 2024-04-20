@@ -1,27 +1,37 @@
-import React from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import Loader from "../components/Loader";
+import { getAllTypes } from "../api/getRequest";
+import Error from "../components/Error";
 
 const Home = ({ navigation }) => {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text style={{ fontSize: 24, fontWeight: "bold", color: "white" }}>
-        Home
-      </Text>
+  const [type, setType] = useState({ reqStatus: false, data: [] });
 
-      <Button title="next" onPress={() => navigation.navigate("list")} />
+  useEffect(() => {
+    getAllTypes()
+      .then((res = []) => setType({ reqStatus: true, data: res }))
+      .catch((err) => setType({ reqStatus: true, data: [] }));
+  }, []);
+
+  return (
+    <View style={styles.homeContainer}>
+      {type.reqStatus ? (
+        type.data.length > 1 ? (
+          <Text> {JSON.stringify(type.data)}</Text>
+        ) : (
+          <Error message={type.data[0]?.message ?? "Something went wrong"} />
+        )
+      ) : (
+        <Loader message={"Loading ..."} />
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  homeContainer: {
     flex: 1,
+    marginTop: 24,
   },
 });
 
