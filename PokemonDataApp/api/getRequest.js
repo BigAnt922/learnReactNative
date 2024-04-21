@@ -27,10 +27,18 @@ export const getListOfOneType = async (url) => {
 
 export const getPokemonDetailById = async (url) => {
   try {
-    console.log("===========", url);
     const response = await axios.get(url);
-    console.log(response.data);
-    console.log("====================");
+    const { abilities, height, weight, moves, stats, sprites } = response.data;
+    return {
+      abilities,
+      height,
+      weight,
+      moves,
+      minHp: stats[0]["base_stat"],
+      maxHp: stats[stats.length - 1]["base_stat"],
+      profileImageUrl: sprites.front_shiny,
+      actualImageUrl: sprites.other["dream_world"]["front_default"],
+    };
   } catch (error) {
     console.error("ERROR OCCURED : ");
     console.error(error);

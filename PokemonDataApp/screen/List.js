@@ -6,7 +6,11 @@ import Error from "../components/Error";
 
 const List = ({ navigation, route }) => {
   const { name = "", url } = route.params;
-  const [list, setList] = useState({ reqStatus: false, data: [] });
+  const [list, setList] = useState({
+    reqStatus: false,
+    data: [],
+    errorStatus: false,
+  });
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -18,35 +22,38 @@ const List = ({ navigation, route }) => {
     const pokemonDataArray = [];
 
     getListOfOneType(url)
-      .then((res) =>
-        res.pokemon.forEach((item) => {
-          const obj = {
-            name: item.pokemon.name,
-            url: item.pokemon.url,
-            profileImageUrl: "",
-            actualImageUrl: "",
-            moves: [],
-            abilities: [],
-            damage: { ...res.damage_relations },
-            height: 0,
-            weight: 0,
-          };
-          // getPokemonDetailById(item.pokemon.url);
-          pokemonDataArray.push(obj);
+      .then((resp) =>
+        resp.pokemon.forEach((item) => {
+          getPokemonDetailById(item.pokemon.url)
+            .then((res) => {
+              const obj = {
+                name: item.pokemon.name,
+                url: item.pokemon.url,
+                profileImageUrl: res.profileImageUrl,
+                actualImageUrl: res.actualImageUrl,
+                moves: res.moves,
+                abilities: res.abilities,
+                damage: { ...resp.damage_relations },
+                height: res.height,
+                weight: res.weight,
+                minHp: res.minHp,
+                maxHp: res.maxHp,
+              };
+              pokemonDataArray.push(obj);
+            })
+            .catch((err) => console.error(err));
         })
       )
-      .catch((err) => setList({ reqStatus: true, data: [] }))
-      .finally(() => setList({ reqStatus: true, data: pokemonDataArray }));
+      .catch((err) => setList({ ...list, errorStatus: true }));
   }, []);
 
+  console.log(list);
   return (
     <View style={styles.listContainer}>
-      {list.reqStatus ? (
-        list.data.length > 1 ? (
-          <Text>{JSON.stringify(list)}</Text>
-        ) : (
-          <Error message={list.data[0]?.message ?? "Something went wrong"} />
-        )
+      {list.errorStatus ? (
+        <Error message={list.data[0]?.message ?? "Something went wrong"} />
+      ) : list.reqStatus ? (
+        <Text>{JSON.stringify(list)}</Text>
       ) : (
         <Loader message={"Loading ..."} />
       )}

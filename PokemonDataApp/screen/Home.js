@@ -6,22 +6,24 @@ import Loader from "../components/Loader";
 import TypeList from "../components/screen/home/TypeList";
 
 const Home = ({ navigation, route }) => {
-  const [type, setType] = useState({ reqStatus: false, data: [] });
+  const [type, setType] = useState({
+    reqStatus: false,
+    data: [],
+    errorStatus: false,
+  });
 
   useLayoutEffect(() => {
     getAllTypes()
       .then((res = []) => setType({ reqStatus: true, data: res }))
-      .catch((err) => setType({ reqStatus: true, data: [] }));
+      .catch((err) => setType({ ...type, errorStatus: true }));
   }, []);
 
   return (
     <View style={styles.homeContainer}>
-      {type.reqStatus ? (
-        type.data.length > 1 ? (
-          <TypeList navigation={navigation} route={route} data={type.data} />
-        ) : (
-          <Error message={type.data[0]?.message ?? "Something went wrong"} />
-        )
+      {type.errorStatus ? (
+        <Error message={type.data[0]?.message ?? "Something went wrong"} />
+      ) : type.reqStatus ? (
+        <TypeList navigation={navigation} route={route} data={type.data} />
       ) : (
         <Loader message={"Loading ..."} />
       )}
