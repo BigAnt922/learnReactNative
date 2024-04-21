@@ -1,8 +1,10 @@
 import React, { useLayoutEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { getListOfOneType, getPokemonDetailById } from "../api/getRequest";
-import Loader from "../components/Loader";
+import { StyleSheet, View } from "react-native";
+import { getListOfOneType } from "../api/getRequest";
 import Error from "../components/Error";
+import Loader from "../components/Loader";
+import ListOfPokemons from "../components/screen/list/ListOfPokemons";
+import NoPokemonsFound from "../components/screen/list/NoPokemonsFound";
 
 const List = ({ navigation, route }) => {
   const { name = "", url } = route.params;
@@ -19,41 +21,35 @@ const List = ({ navigation, route }) => {
       } Pokemons`,
     });
 
-    const pokemonDataArray = [];
-
     getListOfOneType(url)
-      .then((resp) =>
-        resp.pokemon.forEach((item) => {
-          getPokemonDetailById(item.pokemon.url)
-            .then((res) => {
-              const obj = {
-                name: item.pokemon.name,
-                url: item.pokemon.url,
-                profileImageUrl: res.profileImageUrl,
-                actualImageUrl: res.actualImageUrl,
-                moves: res.moves,
-                abilities: res.abilities,
-                damage: { ...resp.damage_relations },
-                height: res.height,
-                weight: res.weight,
-                minHp: res.minHp,
-                maxHp: res.maxHp,
-              };
-              pokemonDataArray.push(obj);
-            })
-            .catch((err) => console.error(err));
+      .then((res) =>
+        setList({
+          reqStatus: true,
+          errorStatus: false,
+          data: res.pokemon.map((item) => ({
+            pokemonName: item.pokemon.name,
+            pokemonDetailUrl: item.pokemon.url,
+            damage_relations: res.damage_relations,
+          })),
         })
       )
       .catch((err) => setList({ ...list, errorStatus: true }));
   }, []);
 
-  console.log(list);
   return (
     <View style={styles.listContainer}>
       {list.errorStatus ? (
         <Error message={list.data[0]?.message ?? "Something went wrong"} />
       ) : list.reqStatus ? (
-        <Text>{JSON.stringify(list)}</Text>
+        list.data.length > 0 ? (
+          <ListOfPokemons
+            navigation={navigation}
+            route={route}
+            data={list.data}
+          />
+        ) : (
+          <NoPokemonsFound navigation={navigation} route={route} />
+        )
       ) : (
         <Loader message={"Loading ..."} />
       )}
@@ -64,7 +60,7 @@ const List = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
-    padding: 16,
+    paddingTop: 16,
   },
 });
 

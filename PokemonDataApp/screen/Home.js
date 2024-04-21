@@ -34,7 +34,7 @@ const Home = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   homeContainer: {
     flex: 1,
-    padding: 16,
+    paddingTop: 16,
   },
 });
 

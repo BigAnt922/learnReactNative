@@ -9,7 +9,7 @@ const RotatingBall = () => {
     Animated.loop(
       Animated.timing(spinAnimation, {
         toValue: 1, // Animate to full rotation
-        duration: 2000, // Duration for one complete rotation
+        duration: 1600, // Duration for one complete rotation
         useNativeDriver: true, // Use native driver for better performance
       })
     ).start();

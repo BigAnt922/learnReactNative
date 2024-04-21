@@ -1,21 +1,25 @@
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import TypeCard from "../../cards/TypeCard";
+import PokemonNameCard from "../../cards/PokemonNameCard";
 
-const TypeList = ({ navigation, route, data = [] }) => {
+const ListOfPokemons = ({ navigation, route, data = [] }) => {
+  const heading = route.params?.name ?? "";
+
   return (
     <View style={styles.listContainer}>
       <FlatList
         data={data}
         renderItem={(item) => (
-          <TypeCard navigation={navigation} route={route} {...item.item} />
+          <PokemonNameCard
+            navigation={navigation}
+            route={route}
+            type={heading}
+            {...item.item}
+          />
         )}
         keyExtractor={(item) => item.url}
         ItemSeparatorComponent={<View style={styles.itemSeprator}></View>}
-        numColumns={2}
-        ListHeaderComponent={
-          <Text style={styles.heading}>Types Of Pokemon</Text>
-        }
       />
     </View>
   );
@@ -25,8 +29,6 @@ const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
     alignItems: "center",
-    position: "relative",
-    left: 8,
   },
   itemSeprator: {
     marginBottom: 16,
@@ -41,4 +43,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TypeList;
+export default ListOfPokemons;
