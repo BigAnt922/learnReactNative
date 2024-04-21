@@ -2,12 +2,14 @@ import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import TypeCard from "../../cards/TypeCard";
 
-const TypeList = ({ navigation, data = [] }) => {
+const TypeList = ({ navigation, route, data = [] }) => {
   return (
     <View style={styles.listContainer}>
       <FlatList
         data={data}
-        renderItem={(item) => <TypeCard {...item.item} />}
+        renderItem={(item) => (
+          <TypeCard navigation={navigation} route={route} {...item.item} />
+        )}
         keyExtractor={(item) => item.url}
         ItemSeparatorComponent={<View style={styles.itemSeprator}></View>}
         numColumns={2}

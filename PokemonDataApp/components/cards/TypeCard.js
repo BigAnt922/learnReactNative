@@ -32,14 +32,24 @@ const imageObject = {
   noImage: require("../../assets/types/noImage.png"),
 };
 
-const TypeCard = ({ navigation, ...restProps }) => {
+const TypeCard = ({ navigation, route, ...restProps }) => {
   const width = useWindowDimensions().width;
   const height = useWindowDimensions().height;
 
   const { name = "", url } = restProps;
 
+  const navigateToPokemonList = () => {
+    navigation.navigate("list", {
+      name,
+      url,
+    });
+  };
+
   return (
-    <Pressable>
+    <Pressable
+      onLongPress={navigateToPokemonList}
+      onPress={navigateToPokemonList}
+    >
       <View
         style={[
           styles.typeCardContainer,

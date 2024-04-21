@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import Loader from "../components/Loader";
+import React, { useLayoutEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
 import { getAllTypes } from "../api/getRequest";
 import Error from "../components/Error";
-import TypeCard from "../components/cards/TypeCard";
+import Loader from "../components/Loader";
 import TypeList from "../components/screen/home/TypeList";
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation, route }) => {
   const [type, setType] = useState({ reqStatus: false, data: [] });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getAllTypes()
       .then((res = []) => setType({ reqStatus: true, data: res }))
       .catch((err) => setType({ reqStatus: true, data: [] }));
@@ -19,7 +18,7 @@ const Home = ({ navigation }) => {
     <View style={styles.homeContainer}>
       {type.reqStatus ? (
         type.data.length > 1 ? (
-          <TypeList data={type.data} />
+          <TypeList navigation={navigation} route={route} data={type.data} />
         ) : (
           <Error message={type.data[0]?.message ?? "Something went wrong"} />
         )
