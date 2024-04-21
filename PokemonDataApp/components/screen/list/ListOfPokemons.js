@@ -3,7 +3,6 @@ import { FlatList, StyleSheet, View } from "react-native";
 import PokemonNameCard from "../../cards/PokemonNameCard";
 
 const ListOfPokemons = ({ navigation, route, data = [] }) => {
-  const heading = route.params?.name ?? "";
   return (
     <View style={styles.listContainer}>
       <FlatList
@@ -12,11 +11,12 @@ const ListOfPokemons = ({ navigation, route, data = [] }) => {
           <PokemonNameCard
             navigation={navigation}
             route={route}
-            type={heading}
             {...item.item}
           />
         )}
-        keyExtractor={(item) => item.url}
+        keyExtractor={(item) => {
+          item.pokemonDetailUrl;
+        }}
         ItemSeparatorComponent={<View style={styles.itemSeprator}></View>}
       />
     </View>

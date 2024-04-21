@@ -9,10 +9,21 @@ import {
 } from "react-native";
 import { imageObject } from "../../helper/Image";
 
-const PokemonNameCard = ({ navigation, route, type, ...restProps }) => {
-  const { pokemonName = "", pokemonDetailUrl, damage_relations } = restProps;
+const PokemonNameCard = ({ navigation, route, ...restProps }) => {
+  const {
+    pokemonName = "",
+    pokemonDetailUrl = "",
+    damage_relations,
+  } = restProps;
 
   const width = useWindowDimensions().width;
+
+  const pokeId = pokemonDetailUrl.split("/")[6];
+
+  const imageAddress = {
+    front: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokeId}.png`,
+    back: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${pokeId}.png`,
+  };
 
   const navigateToPokemonDetails = () => {
     navigation.navigate("details", {
@@ -28,9 +39,21 @@ const PokemonNameCard = ({ navigation, route, type, ...restProps }) => {
       onPress={navigateToPokemonDetails}
     >
       <View style={[styles.typeCardContainer, { width: width / 1.15 }]}>
-        <Image source={imageObject[type] || imageObject["noImage"]} />
+        <Image
+          source={{
+            uri: imageAddress.front,
+            width: 100,
+            height: 100,
+          }}
+        />
         <Text style={styles.type}>{pokemonName}</Text>
-        <Image source={require("../../assets/nextPage.png")} />
+        <Image
+          source={{
+            uri: imageAddress.back,
+            width: 100,
+            height: 100,
+          }}
+        />
       </View>
     </Pressable>
   );
