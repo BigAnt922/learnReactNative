@@ -15,18 +15,28 @@ const List = ({ navigation, route }) => {
       } Pokemons`,
     });
 
-    //get names
+    const pokemonDataArray = [];
+
     getListOfOneType(url)
-      .then((res = []) =>
-        setList({
-          reqStatus: true,
-          data: res.map((item) => ({
+      .then((res) =>
+        res.pokemon.forEach((item) => {
+          const obj = {
             name: item.pokemon.name,
             url: item.pokemon.url,
-          })),
+            profileImageUrl: "",
+            actualImageUrl: "",
+            moves: [],
+            abilities: [],
+            damage: { ...res.damage_relations },
+            height: 0,
+            weight: 0,
+          };
+          // getPokemonDetailById(item.pokemon.url);
+          pokemonDataArray.push(obj);
         })
       )
-      .catch((err) => setList({ reqStatus: true, data: [] }));
+      .catch((err) => setList({ reqStatus: true, data: [] }))
+      .finally(() => setList({ reqStatus: true, data: pokemonDataArray }));
   }, []);
 
   return (

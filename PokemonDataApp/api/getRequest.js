@@ -14,7 +14,10 @@ export const getAllTypes = async () => {
 export const getListOfOneType = async (url) => {
   try {
     const response = await axios.get(url);
-    return response.data?.pokemon ?? [];
+    return {
+      damage_relations: response.data?.damage_relations ?? {},
+      pokemon: response.data?.pokemon ?? [],
+    };
   } catch (error) {
     console.error("ERROR OCCURED : ");
     console.error(error);
@@ -23,10 +26,11 @@ export const getListOfOneType = async (url) => {
 };
 
 export const getPokemonDetailById = async (url) => {
-  console.log("===========================");
   try {
+    console.log("===========", url);
     const response = await axios.get(url);
     console.log(response.data);
+    console.log("====================");
   } catch (error) {
     console.error("ERROR OCCURED : ");
     console.error(error);
