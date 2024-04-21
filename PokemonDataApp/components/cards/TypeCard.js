@@ -43,7 +43,7 @@ const TypeCard = ({ navigation, ...restProps }) => {
       <View
         style={[
           styles.typeCardContainer,
-          { width: width / 1.2, height: height / 2.8 },
+          { width: width / 1.75, height: height / 3 },
         ]}
       >
         <Image source={imageObject[name] || imageObject["noImage"]} />

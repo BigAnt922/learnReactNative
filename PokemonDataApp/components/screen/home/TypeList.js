@@ -9,6 +9,7 @@ const TypeList = ({ navigation, data = [] }) => {
         data={data}
         renderItem={(item) => <TypeCard {...item.item} />}
         keyExtractor={(item) => item.url}
+        ItemSeparatorComponent={<View style={styles.itemSeprator}></View>}
       />
     </View>
   );
@@ -18,6 +19,9 @@ const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
     alignItems: "center",
+  },
+  itemSeprator: {
+    margin: 16,
   },
 });
 
