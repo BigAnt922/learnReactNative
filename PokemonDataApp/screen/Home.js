@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import Loader from "../components/Loader";
 import { getAllTypes } from "../api/getRequest";
 import Error from "../components/Error";
+import TypeCard from "../components/cards/TypeCard";
+import TypeList from "../components/screen/home/TypeList";
 
 const Home = ({ navigation }) => {
   const [type, setType] = useState({ reqStatus: false, data: [] });
@@ -17,7 +19,7 @@ const Home = ({ navigation }) => {
     <View style={styles.homeContainer}>
       {type.reqStatus ? (
         type.data.length > 1 ? (
-          <Text> {JSON.stringify(type.data)}</Text>
+          <TypeList data={type.data} />
         ) : (
           <Error message={type.data[0]?.message ?? "Something went wrong"} />
         )
@@ -31,7 +33,7 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
   homeContainer: {
     flex: 1,
-    marginTop: 24,
+    padding: 16,
   },
 });
 
