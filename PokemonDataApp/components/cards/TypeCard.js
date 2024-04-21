@@ -43,11 +43,15 @@ const TypeCard = ({ navigation, ...restProps }) => {
       <View
         style={[
           styles.typeCardContainer,
-          { width: width / 1.75, height: height / 3 },
+          {
+            width: width / 2.4,
+            height: height / 4,
+            marginRight: 16,
+          },
         ]}
       >
         <Image source={imageObject[name] || imageObject["noImage"]} />
-        <Text>{name}</Text>
+        <Text style={styles.type}>{name}</Text>
       </View>
     </Pressable>
   );
@@ -59,6 +63,15 @@ const styles = StyleSheet.create({
     borderColor: "gold",
     borderWidth: 2,
     borderRadius: 4,
+    elevation: 10,
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
+  type: {
+    fontSize: 24,
+    fontWeight: "800",
+    color: "purple",
+    textTransform: "capitalize",
   },
 });
 
