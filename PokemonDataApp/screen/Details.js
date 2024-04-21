@@ -1,18 +1,11 @@
 import React from "react";
 import { Text, View } from "react-native";
 
-const Details = () => {
+const Details = ({ navigation, route }) => {
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "plum",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <View>
       <Text style={{ fontSize: 24, fontWeight: "bold", color: "white" }}>
-        Detail
+        {JSON.stringify(route.params)}
       </Text>
     </View>
   );

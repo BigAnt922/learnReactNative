@@ -1,11 +1,9 @@
 import React from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import TypeCard from "../../cards/TypeCard";
+import { FlatList, StyleSheet, View } from "react-native";
 import PokemonNameCard from "../../cards/PokemonNameCard";
 
 const ListOfPokemons = ({ navigation, route, data = [] }) => {
   const heading = route.params?.name ?? "";
-
   return (
     <View style={styles.listContainer}>
       <FlatList

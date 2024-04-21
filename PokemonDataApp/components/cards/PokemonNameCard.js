@@ -10,12 +10,16 @@ import {
 import { imageObject } from "../../helper/Image";
 
 const PokemonNameCard = ({ navigation, route, type, ...restProps }) => {
-  const { pokemonName = "", pokemonDetailUrl } = restProps;
+  const { pokemonName = "", pokemonDetailUrl, damage_relations } = restProps;
 
   const width = useWindowDimensions().width;
 
   const navigateToPokemonDetails = () => {
-    navigation.navigate("details");
+    navigation.navigate("details", {
+      pokemonName,
+      pokemonDetailUrl,
+      damage_relations,
+    });
   };
 
   return (
