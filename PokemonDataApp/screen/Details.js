@@ -1,14 +1,53 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React, { useLayoutEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import Error from "../components/Error";
+import Loader from "../components/Loader";
+import { getPokemonDetailById } from "../api/getRequest";
 
 const Details = ({ navigation, route }) => {
+  const { pokemonName, pokemonDetailUrl, damage_relations } = route.params;
+
+  const properPokemonName =
+    pokemonName[0].toUpperCase() + pokemonName.substring(1).toLowerCase();
+
+  const [pokiData, setPokiData] = useState({
+    reqStatus: false,
+    data: [],
+    errorStatus: false,
+  });
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: `${properPokemonName}'s Details`,
+    });
+
+    getPokemonDetailById(pokemonDetailUrl)
+      .then((res) => setPokiData({ reqStatus: true, data: res }))
+      .catch((err) => setPokiData({ ...pokiData, errorStatus: true }));
+  }, []);
+
   return (
-    <View>
-      <Text style={{ fontSize: 24, fontWeight: "bold", color: "white" }}>
-        {JSON.stringify(route.params)}
-      </Text>
+    <View style={styles.homeContainer}>
+      {pokiData.errorStatus ? (
+        <Error message={pokiData.data[0]?.message ?? "Something went wrong"} />
+      ) : pokiData.reqStatus ? (
+        <>
+          <Text>
+            {JSON.stringify({ ...pokiData.data, ...damage_relations })}
+          </Text>
+        </>
+      ) : (
+        <Loader message={properPokemonName + ", I Choose You"} />
+      )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  homeContainer: {
+    flex: 1,
+    paddingTop: 16,
+  },
+});
 
 export default Details;
