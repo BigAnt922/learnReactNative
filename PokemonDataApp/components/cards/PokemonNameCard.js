@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Pressable,
@@ -7,7 +7,6 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
-import { imageObject } from "../../helper/Image";
 
 const PokemonNameCard = ({ navigation, route, ...restProps }) => {
   const {
@@ -15,6 +14,18 @@ const PokemonNameCard = ({ navigation, route, ...restProps }) => {
     pokemonDetailUrl = "",
     damage_relations,
   } = restProps;
+
+  const [front, setFront] = useState(true);
+
+  useEffect(() => {
+    const inter = setInterval(() => {
+      setFront(!front);
+    }, 1000);
+
+    return () => {
+      clearInterval(inter);
+    };
+  }, [front]);
 
   const width = useWindowDimensions().width;
 
@@ -39,17 +50,10 @@ const PokemonNameCard = ({ navigation, route, ...restProps }) => {
       onPress={navigateToPokemonDetails}
     >
       <View style={[styles.typeCardContainer, { width: width / 1.15 }]}>
-        <Image
-          source={{
-            uri: imageAddress.front,
-            width: 100,
-            height: 100,
-          }}
-        />
         <Text style={styles.type}>{pokemonName}</Text>
         <Image
           source={{
-            uri: imageAddress.back,
+            uri: front ? imageAddress.front : imageAddress.back,
             width: 100,
             height: 100,
           }}
@@ -77,7 +81,7 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
     flex: 1,
     flexWrap: "wrap",
-    textAlign: "center",
+    paddingLeft: 24,
   },
 });
 
