@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import Error from "../components/Error";
 import Loader from "../components/Loader";
 import { getPokemonDetailById } from "../api/getRequest";
+import PokemonDetailCard from "../components/cards/PokemonDetailCard";
 
 const Details = ({ navigation, route }) => {
   const { pokemonName, pokemonDetailUrl, damage_relations } = route.params;
@@ -31,11 +32,14 @@ const Details = ({ navigation, route }) => {
       {pokiData.errorStatus ? (
         <Error message={pokiData.data[0]?.message ?? "Something went wrong"} />
       ) : pokiData.reqStatus ? (
-        <>
-          <Text>
-            {JSON.stringify({ ...pokiData.data, ...damage_relations })}
-          </Text>
-        </>
+        <PokemonDetailCard
+          cardData={{
+            ...pokiData.data,
+            pokemonName,
+            pokemonDetailUrl,
+            ...damage_relations,
+          }}
+        />
       ) : (
         <Loader message={properPokemonName + ", I Choose You"} />
       )}
